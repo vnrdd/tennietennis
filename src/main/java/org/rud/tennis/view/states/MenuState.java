@@ -1,29 +1,23 @@
-package org.rud.tennis.states;
+package org.rud.tennis.view.states;
 
-import org.rud.tennis.manage.*;
+import org.rud.tennis.manage.Background;
+import org.rud.tennis.manage.GameStateManager;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 
-public class SPState extends GameState {
+public class MenuState extends GameState {
     private Background bg;
     private int currentChoice = 0;
-    private String[] options = {"Squash", "Play with bot", "Back to Menu"};
+    private String[] options = {"Singleplayer", "Multiplayer", "Help", "Quit"};
     private Font font;
     private Color uncheckedColor;
     private Color checkedColor;
 
-    public SPState(GameStateManager gsm) {
+    public MenuState(GameStateManager gsm) {
         this.gsm = gsm;
         try {
-            bg = new Background("/gameBg.png");
+            bg = new Background("/mainBg.png");
             font = new Font("TT Hoves DemiBold", Font.PLAIN, 30);
             uncheckedColor = new Color(219, 223, 225);
             checkedColor = new Color(58, 134, 255);
@@ -34,26 +28,27 @@ public class SPState extends GameState {
     }
 
     public void init() {}
-
     public void update() {}
 
-    public void draw(Graphics2D g){
+    public void draw(Graphics2D g) {
         bg.draw(g);
+
         g.setFont(font);
         for(int i = 0; i < options.length; i++) {
             if(i == currentChoice)
                 g.setColor(checkedColor);
             else
                 g.setColor(uncheckedColor);
-            g.drawString(options[i], 500 - 7 * options[i].length(), 300 + i * 50);
+            g.drawString(options[i], 500 - 7 * options[i].length(), 400 + i * 50);
         }
     }
 
     private void select() {
-        if(currentChoice == 0) {}
+        if(currentChoice == 0)
+            gsm.setState(GameStateManager.SINGLEPLAYERSTATE);
         if(currentChoice == 1) {}
-        if(currentChoice == 2)
-            gsm.setState(GameStateManager.MENUSTATE);
+        if(currentChoice == 3)
+            System.exit(0);
     }
 
     public void keyPressed(int k) {
@@ -70,6 +65,5 @@ public class SPState extends GameState {
                 currentChoice = 0;
         }
     }
-
-    public void keyReleased(int k) { }
+    public void keyReleased(int k) {}
 }

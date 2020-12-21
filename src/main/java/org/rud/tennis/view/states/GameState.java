@@ -1,4 +1,4 @@
-package org.rud.tennis.states;
+package org.rud.tennis.view.states;
 
 import org.rud.tennis.manage.GameStateManager;
 
