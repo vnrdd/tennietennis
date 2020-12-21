@@ -1,7 +1,6 @@
-package org.rud.tennis.manage;
+package org.rud.tennis.states;
 
 import org.rud.tennis.manage.Background;
-import org.rud.tennis.manage.GameState;
 import org.rud.tennis.manage.GameStateManager;
 
 import java.awt.*;
@@ -45,7 +44,8 @@ public class MenuState extends GameState {
     }
 
     private void select() {
-        if(currentChoice == 0) {}
+        if(currentChoice == 0)
+            gsm.setState(GameStateManager.SINGLEPLAYERSTATE);
         if(currentChoice == 1) {}
         if(currentChoice == 3)
             System.exit(0);

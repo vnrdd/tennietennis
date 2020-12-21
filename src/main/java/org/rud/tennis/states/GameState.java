@@ -1,6 +1,9 @@
-package org.rud.tennis.manage;
+package org.rud.tennis.states;
+
+import org.rud.tennis.manage.GameStateManager;
 
 import java.awt.*;
+import java.io.IOException;
 
 public abstract class GameState {
     protected GameStateManager gsm;

@@ -1,5 +1,9 @@
 package org.rud.tennis.manage;
 
+import org.rud.tennis.states.GameState;
+import org.rud.tennis.states.MenuState;
+import org.rud.tennis.states.SPState;
+
 import java.util.ArrayList;
 
     public class GameStateManager {
@@ -8,11 +12,15 @@ import java.util.ArrayList;
         private int currentState;
 
         public static final int MENUSTATE = 0;
+        public static final int SINGLEPLAYERSTATE = 1;
+        public static final int MULTIPLAYERSTATE = 2;
+        public static final int HELPSTATE = 3;
 
         public GameStateManager() {
             gameStates = new ArrayList<GameState>();
             currentState = MENUSTATE;
             gameStates.add(new MenuState(this));
+            gameStates.add(new SPState(this));
         }
 
         public void setState(int state) {
