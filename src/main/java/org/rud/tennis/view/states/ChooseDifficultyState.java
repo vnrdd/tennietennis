@@ -6,23 +6,25 @@ import org.rud.tennis.manage.GameStateManager;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class MenuState extends GameState {
+public class ChooseDifficultyState extends GameState {
     private Background bg;
-    private int currentChoice = 0;
-    private String[] options = {"Singleplayer", "Multiplayer", "Help", "Quit"};
+    private String[] options = {"Noob", "Animal"};
+    private int currentChoice;
+    private int choosedOption = -1;
+    private int stateToCall = 0;
     private Font font;
     private Color uncheckedColor;
     private Color checkedColor;
 
-    public MenuState(GameStateManager gsm) {
+    public ChooseDifficultyState(GameStateManager gsm){
         this.gsm = gsm;
         try {
-            bg = new Background("/mainBg.png");
+            bg = new Background("/gameBg.png");
             font = new Font("TT Hoves DemiBold", Font.PLAIN, 30);
             uncheckedColor = new Color(219, 223, 225);
             checkedColor = new Color(58, 134, 255);
         }
-        catch(Exception e) {
+        catch(Exception e){
             e.printStackTrace();
         }
     }
@@ -30,30 +32,30 @@ public class MenuState extends GameState {
     public void init() {}
 
     public void init(int mod) {
-
+        stateToCall = mod;
     }
 
     public void update() {}
 
+    public int getDifficulty(){
+        return choosedOption;
+    }
+
     public void draw(Graphics2D g) {
         bg.draw(g);
-
         g.setFont(font);
         for(int i = 0; i < options.length; i++) {
             if(i == currentChoice)
                 g.setColor(checkedColor);
             else
                 g.setColor(uncheckedColor);
-            g.drawString(options[i], 500 - 7 * options[i].length(), 400 + i * 50);
+            g.drawString(options[i], 500 - 7 * options[i].length(), 300 + i * 50);
         }
     }
 
     private void select() {
-        if(currentChoice == 0)
-            gsm.setState(GameStateManager.SINGLEPLAYERSTATE);
-        if(currentChoice == 1) {}
-        if(currentChoice == 3)
-            System.exit(0);
+        choosedOption = currentChoice;
+        gsm.setState(stateToCall, choosedOption);
     }
 
     public void keyPressed(int k) {
@@ -69,6 +71,9 @@ public class MenuState extends GameState {
             if(currentChoice == options.length)
                 currentChoice = 0;
         }
+        if(k == KeyEvent.VK_ESCAPE)
+            gsm.setState(GameStateManager.MENUSTATE);
     }
-    public void keyReleased(int k) {}
+
+    public void keyReleased(int k) { }
 }

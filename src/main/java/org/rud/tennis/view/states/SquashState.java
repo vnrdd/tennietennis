@@ -1,6 +1,6 @@
 package org.rud.tennis.view.states;
 
-import org.rud.tennis.manage.Background;
+import org.rud.tennis.view.objects.Background;
 import org.rud.tennis.manage.GameStateManager;
 import org.rud.tennis.view.objects.*;
 
@@ -40,6 +40,10 @@ public class SquashState extends GameState implements Pitch{
     }
 
     public void init() {
+    }
+
+    public void init(int mod) {
+        ball.getModel().setSpeed(mod + 2);
     }
 
     public void update() {
@@ -131,7 +135,8 @@ public class SquashState extends GameState implements Pitch{
 
     private void reset(){
         ball = new Ball(500, 353);
-        gameOver = false;
+            gameOver = false;
         scores.set(0, 0);
+        singleScore = 0;
     }
 }

@@ -1,6 +1,7 @@
 package org.rud.tennis.view.states;
 
 import org.rud.tennis.manage.*;
+import org.rud.tennis.view.objects.Background;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -28,6 +29,10 @@ public class SPState extends GameState {
 
     public void init() {}
 
+    public void init(int mod) {
+
+    }
+
     public void update() {}
 
     public void draw(Graphics2D g){
@@ -44,10 +49,10 @@ public class SPState extends GameState {
 
     private void select() {
         if(currentChoice == 0) {
-            gsm.setState(GameStateManager.SQUASHSTATE);
+            gsm.setState(GameStateManager.CHOOSEDIFFICULTYSTATE, 2);
         }
         if(currentChoice == 1) {
-            gsm.setState(GameStateManager.PLAYWITHBOTSTATE);
+            gsm.setState(GameStateManager.CHOOSEDIFFICULTYSTATE, 3);
         }
         if(currentChoice == 2)
             gsm.setState(GameStateManager.MENUSTATE);

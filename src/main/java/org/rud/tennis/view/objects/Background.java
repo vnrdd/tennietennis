@@ -1,4 +1,4 @@
-package org.rud.tennis.manage;
+package org.rud.tennis.view.objects;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

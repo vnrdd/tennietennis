@@ -17,6 +17,7 @@ import java.util.ArrayList;
         // SINGLEPLAYER LEVEL
         public static final int SQUASHSTATE = 2; // CHANGE ON 4 LATER
         public static final int PLAYWITHBOTSTATE = 3; //CHANGE ON 5 LATER
+        public static final int CHOOSEDIFFICULTYSTATE = 4; //CHANGE ON SMTH LATER
 
         public GameStateManager() {
             gameStates = new ArrayList<GameState>();
@@ -25,11 +26,17 @@ import java.util.ArrayList;
             gameStates.add(new SPState(this));
             gameStates.add(new SquashState(this));
             gameStates.add(new PlayWithBotState(this));
+            gameStates.add(new ChooseDifficultyState(this));
         }
 
         public void setState(int state) {
             currentState = state;
             gameStates.get(currentState).init();
+        }
+
+        public void setState(int state, int mod) {
+            currentState = state;
+            gameStates.get(currentState).init(mod);
         }
 
         public void update() {

@@ -18,8 +18,15 @@ public class BallModel {
         this.x = x;
         this.y = y;
         hitBox = new Rectangle(x, y, WIDTH, HEIGHT);
-        while(ySpeed == 0)
-            ySpeed = (new Random()).nextInt(2) - 1;
+        setSpeed(2);
+    }
+
+    public void setSpeed(int border){
+        int buf =  (new Random()).nextInt(2) - 1;
+        if(buf == 0)
+            ySpeed = -border;
+        else
+            ySpeed = border;
     }
 
     public int getX(){
@@ -39,11 +46,12 @@ public class BallModel {
     }
 
     public void set(Pitch pitch){
-        for(int i = 0; i < pitch.getPlayers().size(); ++i)
-        if(hitBox.intersects(pitch.getPlayers().get(i).getModel().getHitBox())) {
-            xSpeed = -xSpeed;
-            int newScore = pitch.getSingleScore() + 1;
-            pitch.setSingleScore(newScore);
+        for(int i = 0; i < pitch.getPlayers().size(); ++i) {
+            if (hitBox.intersects(pitch.getPlayers().get(i).getModel().getHitBox())) {
+                xSpeed = -xSpeed;
+                int newScore = pitch.getSingleScore() + 1;
+                pitch.setSingleScore(newScore);
+            }
         }
         for(int i = 0; i < pitch.getWalls().size(); ++i){
             if(hitBox.intersects(pitch.getWalls().get(i).getModel().getHitBox())) {
@@ -61,6 +69,7 @@ public class BallModel {
                 pitch.setGameOver(!pitch.getGameOver());
             }
         }
+
         x += xSpeed;
         y += ySpeed;
         hitBox.x += xSpeed;

@@ -1,15 +1,11 @@
 package org.rud.tennis.view.states;
 
-import org.rud.tennis.manage.Background;
-import org.rud.tennis.manage.GameStateManager;
-import org.rud.tennis.view.objects.Ball;
-import org.rud.tennis.view.objects.Border;
-import org.rud.tennis.view.objects.Player;
+import org.rud.tennis.manage.*;
+import org.rud.tennis.view.objects.*;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class PlayWithBotState extends GameState implements Pitch {
     private Background bg;
@@ -22,6 +18,8 @@ public class PlayWithBotState extends GameState implements Pitch {
     private int singleScore;
     private int ballsToWin = 2;
     private boolean gameOver = false;
+    private int diff = -1;
+    private int botSpeedBorder = 0;
 
     public PlayWithBotState(GameStateManager gsm){
         this.gsm = gsm;
@@ -46,22 +44,28 @@ public class PlayWithBotState extends GameState implements Pitch {
         walls.add(new Border(38, 37, 924, 12, "/wall.png"));
         walls.add(new Border(38, 660, 924, 12, "/wall.png"));
     }
+
     public void init() {
 
     }
 
+    public void init(int mod) {
+        ball.getModel().setSpeed(mod + 2);
+        botSpeedBorder = mod + 2;
+    }
+
     public void update() {
         if(ball.getModel().getYSpeed() > 0)
-            players.get(1).getModel().ySpeed = 1;
+            players.get(1).getModel().ySpeed = botSpeedBorder;
         else
-            players.get(1).getModel().ySpeed = -1;
+            players.get(1).getModel().ySpeed = -botSpeedBorder;
         for(Player p : players)
             p.getModel().set();
         ball.getModel().set(this);
         winCheck();
     }
 
-    public void winCheck(){
+    private void winCheck(){
         if(scores.get(0) == ballsToWin || scores.get(1) == ballsToWin)
             gameOver = true;
     }
