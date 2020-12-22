@@ -8,14 +8,15 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-public class SquashState extends GameState{
+public class SquashState extends GameState implements Pitch{
     private Background bg;
     private Ball ball;
-    private Border goalBorder;
+    private ArrayList<Border> goalBorders;
     private ArrayList<Border> walls;
-    private Player player;
-    public int score = 0;
-    public boolean gameOver = false;
+    private ArrayList<Player> players;
+    private ArrayList<Integer> scores;
+    private int singleScore = 0;
+    private boolean gameOver = false;
 
     public SquashState(GameStateManager gsm){
         this.gsm = gsm;
@@ -25,9 +26,13 @@ public class SquashState extends GameState{
         catch(Exception e){
             e.printStackTrace();
         }
-        player = new Player(118, 292);
+        scores = new ArrayList<Integer>();
+        scores.add(0);
+        players = new ArrayList<Player>();
+        players.add(new Player(118, 292, 1));
         ball = new Ball(500, 353);
-        goalBorder = new Border(30, 48, 12, 612, "/goalBorder.png");
+        goalBorders = new ArrayList<Border>();
+        goalBorders.add(new Border(30, 48, 12, 612, "/goalBorder.png"));
         walls = new ArrayList<Border>();
         walls.add(new Border(30, 37, 924, 12, "/wall.png"));
         walls.add(new Border(30, 660, 924, 12, "/wall.png"));
@@ -38,29 +43,31 @@ public class SquashState extends GameState{
     }
 
     public void update() {
-        player.getModel().set();
-        ball.getModel().set(this);
+        if(!gameOver) {
+            players.get(0).getModel().set();
+            ball.getModel().set(this);
+        }
     }
 
     public void draw(Graphics2D g) {
         bg.draw(g);
         g.setColor(new Color(219, 223, 225));
         g.setFont(new Font("TT Hoves DemiBold", Font.PLAIN, 100));
-        g.drawString(String.valueOf(score), 470, 150);
-        player.draw(g);
+        g.drawString(String.valueOf(singleScore), 470, 150);
+        players.get(0).draw(g);
         ball.draw(g);
-        goalBorder.draw(g);
+        goalBorders.get(0).draw(g);
         for(Border b : walls)
             b.draw(g);
         if(gameOver){
             bg.draw(g);
             g.setColor(new Color(252, 163, 17));
             g.setFont(new Font("TT Hoves DemiBold", Font.PLAIN, 50));
-            g.drawString("Your score: " + String.valueOf(score), 330, 200);
+            g.drawString("Your score: " + String.valueOf(singleScore), 330, 200);
 
             g.setColor(new Color(219, 223, 225));
             g.setFont(new Font("TT Hoves DemiBold", Font.PLAIN, 30));
-            g.drawString("Press ESC to leave", 330, 500);
+            g.drawString("Press ESC to leave", 340, 500);
         }
     }
 
@@ -68,12 +75,33 @@ public class SquashState extends GameState{
         return walls;
     }
 
-    public Border getGoalBorder(){
-        return goalBorder;
+    public ArrayList<Border> getGoalBorders(){
+        return goalBorders;
     }
 
-    public Player getPlayer(){
-        return player;
+    public ArrayList<Player> getPlayers(){
+        return players;
+    }
+
+    public int getScore(int player){
+        return scores.get(player);
+    }
+
+    public void setScore(int player, int score){
+        scores.set(player, score);
+    }
+
+    public boolean getGameOver(){
+        return gameOver;
+    }
+
+    public void setGameOver(boolean value){
+        gameOver = value;
+    }
+
+    public void goal(int pos){
+        scores.set(pos, scores.get(pos) + 1);
+        ball = new Ball(506, 353);
     }
 
     public void keyPressed(int k) {
@@ -82,27 +110,28 @@ public class SquashState extends GameState{
             gsm.setState(GameStateManager.MENUSTATE);
         }
         if(k == KeyEvent.VK_UP) {
-            player.getModel().ySpeed = -2;
+            players.get(0).getModel().ySpeed = -2;
         }
         if(k == KeyEvent.VK_DOWN) {
-            player.getModel().ySpeed = 2;
+            players.get(0).getModel().ySpeed = 2;
         }
     }
 
     public void keyReleased(int k) {
         if(k == KeyEvent.VK_UP || k == KeyEvent.VK_DOWN)
-            player.getModel().ySpeed = 0;
+            players.get(0).getModel().ySpeed = 0;
+    }
+
+    public int getSingleScore(){
+        return singleScore;
+    }
+    public void setSingleScore(int score){
+        singleScore = score;
     }
 
     private void reset(){
-        player = new Player(118, 292);
         ball = new Ball(500, 353);
-        goalBorder = new Border(30, 48, 12, 612, "/goalBorder.png");
-        walls = new ArrayList<Border>();
-        walls.add(new Border(30, 37, 924, 12, "/wall.png"));
-        walls.add(new Border(30, 660, 924, 12, "/wall.png"));
-        walls.add(new Border(953, 37, 12, 635, "/wall.png"));
         gameOver = false;
-        score = 0;
+        scores.set(0, 0);
     }
 }

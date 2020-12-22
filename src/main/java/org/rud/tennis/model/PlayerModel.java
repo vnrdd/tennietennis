@@ -5,8 +5,9 @@ import java.awt.*;
 public class PlayerModel {
     private int x;
     private int y;
+    public boolean bot;
 
-    public int ySpeed = 0;
+    public double ySpeed = 0;
 
     private Rectangle hitBox;
 

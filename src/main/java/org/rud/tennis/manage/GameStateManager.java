@@ -1,9 +1,6 @@
 package org.rud.tennis.manage;
 
-import org.rud.tennis.view.states.GameState;
-import org.rud.tennis.view.states.MenuState;
-import org.rud.tennis.view.states.SPState;
-import org.rud.tennis.view.states.SquashState;
+import org.rud.tennis.view.states.*;
 
 import java.util.ArrayList;
 
@@ -19,7 +16,7 @@ import java.util.ArrayList;
 
         // SINGLEPLAYER LEVEL
         public static final int SQUASHSTATE = 2; // CHANGE ON 4 LATER
-        public static final int PLAYWITHBOTSTATE = 5;
+        public static final int PLAYWITHBOTSTATE = 3; //CHANGE ON 5 LATER
 
         public GameStateManager() {
             gameStates = new ArrayList<GameState>();
@@ -27,6 +24,7 @@ import java.util.ArrayList;
             gameStates.add(new MenuState(this));
             gameStates.add(new SPState(this));
             gameStates.add(new SquashState(this));
+            gameStates.add(new PlayWithBotState(this));
         }
 
         public void setState(int state) {

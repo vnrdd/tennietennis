@@ -46,7 +46,9 @@ public class SPState extends GameState {
         if(currentChoice == 0) {
             gsm.setState(GameStateManager.SQUASHSTATE);
         }
-        if(currentChoice == 1) {}
+        if(currentChoice == 1) {
+            gsm.setState(GameStateManager.PLAYWITHBOTSTATE);
+        }
         if(currentChoice == 2)
             gsm.setState(GameStateManager.MENUSTATE);
     }

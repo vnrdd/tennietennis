@@ -10,9 +10,12 @@ public class Player {
     private PlayerModel model;
     private BufferedImage texture;
 
-    public Player(int x, int y){
+    public Player(int x, int y, int number){
         try{
-            texture = ImageIO.read(getClass().getResourceAsStream("/player.png"));
+            if(number == 1)
+                texture = ImageIO.read(getClass().getResourceAsStream("/player.png"));
+            else if(number == 2)
+                texture = ImageIO.read(getClass().getResourceAsStream("/player2.png"));
         }
         catch(Exception e){
             e.printStackTrace();
