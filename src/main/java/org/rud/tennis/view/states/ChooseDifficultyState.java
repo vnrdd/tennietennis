@@ -8,7 +8,7 @@ import java.awt.event.KeyEvent;
 
 public class ChooseDifficultyState extends GameState {
     private Background bg;
-    private String[] options = {"Noob", "Animal"};
+    private String[] options = {"Vegan", "BBQ King"};
     private int currentChoice;
     private int choosedOption = -1;
     private int stateToCall = 0;
@@ -44,6 +44,8 @@ public class ChooseDifficultyState extends GameState {
     public void draw(Graphics2D g) {
         bg.draw(g);
         g.setFont(font);
+        g.setColor(new Color(252, 163, 17));
+        g.drawString("Choose difficulty", 385, 200);
         for(int i = 0; i < options.length; i++) {
             if(i == currentChoice)
                 g.setColor(checkedColor);

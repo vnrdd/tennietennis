@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
         public static final int MENUSTATE = 0;
         public static final int SINGLEPLAYERSTATE = 1;
-        public static final int MULTIPLAYERSTATE = 2;
+        public static final int MULTIPLAYERSTATE = 5;
         public static final int HELPSTATE = 3;
 
         // SINGLEPLAYER LEVEL
@@ -27,6 +27,7 @@ import java.util.ArrayList;
             gameStates.add(new SquashState(this));
             gameStates.add(new PlayWithBotState(this));
             gameStates.add(new ChooseDifficultyState(this));
+            gameStates.add(new MPState(this));
         }
 
         public void setState(int state) {

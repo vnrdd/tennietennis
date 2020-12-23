@@ -36,6 +36,24 @@ public class PlayerModel {
         y += ySpeed;
     }
 
+    public void set(BallModel ball, int speedBorder){
+        if(ball.getYSpeed() > 0)
+            ySpeed = speedBorder;
+        else if(ball.getYSpeed() < 0)
+            ySpeed = -speedBorder;
+        if(ball.getXSpeed() < 0)
+            ySpeed = 0;
+
+        hitBox.y += ySpeed;
+        if(hitBox.intersects(new Rectangle(30, 37, 924, 12))
+                || hitBox.intersects(new Rectangle(30, 660, 924, 12))){
+            hitBox.y -= ySpeed;
+            ySpeed = 0;
+            y = hitBox.y;
+        }
+        y += ySpeed;
+    }
+
     public Rectangle getHitBox(){
         return hitBox;
     }

@@ -51,7 +51,9 @@ public class MenuState extends GameState {
     private void select() {
         if(currentChoice == 0)
             gsm.setState(GameStateManager.SINGLEPLAYERSTATE);
-        if(currentChoice == 1) {}
+        if(currentChoice == 1) {
+            gsm.setState(GameStateManager.MULTIPLAYERSTATE);
+        }
         if(currentChoice == 3)
             System.exit(0);
     }
