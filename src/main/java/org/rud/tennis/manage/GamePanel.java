@@ -11,8 +11,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 
     private Thread thread;
     private boolean running;
-    private int FPS = 60;
-    private long targetTime = 1000 / FPS;
 
     private BufferedImage image;
     private Graphics2D g;

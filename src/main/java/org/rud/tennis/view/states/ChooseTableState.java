@@ -1,40 +1,47 @@
 package org.rud.tennis.view.states;
 
-import org.rud.tennis.view.objects.Background;
 import org.rud.tennis.manage.GameStateManager;
+import org.rud.tennis.view.objects.Background;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class MenuState extends GameState {
+public class ChooseTableState extends GameState {
     private Background bg;
     private int currentChoice = 0;
-    private String[] options = {"Singleplayer", "Multiplayer", "Help", "Quit"};
+    private String[] options = {"Join the game", "New game"};
     private Font font;
     private Color uncheckedColor;
     private Color checkedColor;
 
-    public MenuState(GameStateManager gsm) {
+    public ChooseTableState(GameStateManager gsm){
         this.gsm = gsm;
-        try {
-            bg = new Background("/mainBg.png");
+        try{
+            bg = new Background("/gameBg.png");
             font = new Font("TT Hoves DemiBold", Font.PLAIN, 30);
             uncheckedColor = new Color(219, 223, 225);
             checkedColor = new Color(58, 134, 255);
         }
-        catch(Exception e) {
+        catch(Exception e){
             e.printStackTrace();
         }
     }
+    @Override
+    public void init() {
 
-    public void init() {}
+    }
 
+    @Override
     public void init(int mod) {
 
     }
 
-    public void update() {}
+    @Override
+    public void update() {
 
+    }
+
+    @Override
     public void draw(Graphics2D g) {
         bg.draw(g);
 
@@ -48,17 +55,22 @@ public class MenuState extends GameState {
         }
     }
 
-    private void select() {
-        if(currentChoice == 0)
-            gsm.setState(GameStateManager.SINGLEPLAYERSTATE);
-        if(currentChoice == 1) {
-            gsm.setState(GameStateManager.CHOOSETABLESTATE);
+    public void select(){
+        if(currentChoice == 0){
+            this.gsm.posInGame = 1;
+            gsm.setState(GameStateManager.MULTIPLAYERSTATE);
         }
-        if(currentChoice == 3)
-            System.exit(0);
+
+        if(currentChoice == 1) {
+            this.gsm.posInGame = 0;
+            gsm.setState(GameStateManager.MULTIPLAYERSTATE);
+        }
     }
 
+    @Override
     public void keyPressed(int k) {
+        if(k == KeyEvent.VK_ESCAPE)
+            gsm.setState(GameStateManager.MENUSTATE);
         if(k == KeyEvent.VK_ENTER)
             select();
         if(k == KeyEvent.VK_UP) {
@@ -72,5 +84,9 @@ public class MenuState extends GameState {
                 currentChoice = 0;
         }
     }
-    public void keyReleased(int k) {}
+
+    @Override
+    public void keyReleased(int k) {
+
+    }
 }

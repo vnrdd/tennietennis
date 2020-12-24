@@ -8,11 +8,13 @@ import java.util.ArrayList;
 
         private ArrayList<GameState> gameStates;
         private int currentState;
+        public int posInGame = 1;
 
         public static final int MENUSTATE = 0;
         public static final int SINGLEPLAYERSTATE = 1;
         public static final int MULTIPLAYERSTATE = 5;
         public static final int HELPSTATE = 3;
+        public static final int CHOOSETABLESTATE = 6;
 
         // SINGLEPLAYER LEVEL
         public static final int SQUASHSTATE = 2; // CHANGE ON 4 LATER
@@ -28,6 +30,7 @@ import java.util.ArrayList;
             gameStates.add(new PlayWithBotState(this));
             gameStates.add(new ChooseDifficultyState(this));
             gameStates.add(new MPState(this));
+            gameStates.add(new ChooseTableState(this));
         }
 
         public void setState(int state) {

@@ -18,15 +18,27 @@ public class BallModel {
         this.x = x;
         this.y = y;
         hitBox = new Rectangle(x, y, WIDTH, HEIGHT);
-        setSpeed(2);
+        setSpeed(2, true);
     }
 
-    public void setSpeed(int border){
-        int buf =  (new Random()).nextInt(2) - 1;
-        if(buf == 0)
-            ySpeed = -border;
+    public void setSpeed(int border, boolean random){
+        if(random) {
+            int buf = (new Random()).nextInt(2) - 1;
+            if (buf == 0)
+                ySpeed = -border;
+            else
+                ySpeed = border;
+        }
         else
             ySpeed = border;
+    }
+
+    public void setX(int x){
+        this.x = x;
+    }
+
+    public void setY(int y){
+        this.y = y;
     }
 
     public int getX(){

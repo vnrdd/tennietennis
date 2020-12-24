@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class PlayerModel {
     private int x;
-    private int y;
+    public  int y;
     public boolean bot;
 
     public double ySpeed = 0;

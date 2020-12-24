@@ -51,7 +51,7 @@ public class PlayWithBotState extends GameState implements Pitch {
 
     public void init(int mod) {
         diff = mod;
-        ball.getModel().setSpeed(mod + 2);
+        ball.getModel().setSpeed(mod + 2, true);
         botSpeedBorder = mod + 2;
     }
 
@@ -100,7 +100,7 @@ public class PlayWithBotState extends GameState implements Pitch {
     public void goal(int pos){
         scores.set((pos + 1) % 2, scores.get((pos + 1) % 2) + 1);
         ball = new Ball(506, 353);
-        ball.getModel().setSpeed(diff + 2);
+        ball.getModel().setSpeed(diff + 2, true);
         players.set(1, new Player(860, 292, 2));
     }
 
@@ -157,7 +157,7 @@ public class PlayWithBotState extends GameState implements Pitch {
 
     private void reset(){
         ball = new Ball(506, 353);
-        ball.getModel().setSpeed(diff + 2);
+        ball.getModel().setSpeed(diff + 2, true);
         players.set(1, new Player(860, 292, 2));
         scores.set(0, 0);
         scores.set(1, 0);

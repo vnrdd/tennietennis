@@ -43,7 +43,7 @@ public class SquashState extends GameState implements Pitch{
     }
 
     public void init(int mod) {
-        ball.getModel().setSpeed(mod + 2);
+        ball.getModel().setSpeed(mod + 2, true);
     }
 
     public void update() {
