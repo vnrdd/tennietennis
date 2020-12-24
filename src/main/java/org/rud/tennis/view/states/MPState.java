@@ -82,7 +82,6 @@ public class MPState extends GameState implements Pitch{
     }
 
     public void init(int mod) {
-
     }
 
     public void update() {

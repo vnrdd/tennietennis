@@ -46,7 +46,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
             draw();
             drawToScreen();
             try {
-                Thread.sleep(3);
+                Thread.sleep(5);
             }
             catch(Exception e) {
                 e.printStackTrace();
