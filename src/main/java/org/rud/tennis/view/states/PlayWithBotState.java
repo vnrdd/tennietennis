@@ -81,6 +81,12 @@ public class PlayWithBotState extends GameState implements Pitch {
             w.draw(g);
         ball.draw(g);
 
+        if (scores.get(0) + 1 == ballsToWin || scores.get(1) + 1 == ballsToWin) {
+            g.setColor(new Color(252, 163, 17));
+            g.setFont(new Font("TT Hoves DemiBold", Font.PLAIN, 30));
+            g.drawString("Match point!", 410, 400);
+        }
+
         if (gameOver) {
             gameOverBg.draw(g);
             g.setColor(new Color(252, 163, 17));

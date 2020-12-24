@@ -2,12 +2,14 @@ package org.rud.tennis.model;
 
 import java.awt.*;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BallModelTest {
     private BallModel testing = new BallModel(0, 0, 10, 10);
 
-    @org.junit.jupiter.api.Test
+    @Test
     void setSpeed() {
         testing.setSpeed(3, false);
         double expected = 3;
@@ -15,7 +17,7 @@ class BallModelTest {
         assertEquals(expected, actual);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void setX() {
         testing.setX(100);
         int expected = 100;
@@ -23,7 +25,7 @@ class BallModelTest {
         assertEquals(expected, actual);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void setY() {
         testing.setY(100);
         int expected = 100;
@@ -31,7 +33,7 @@ class BallModelTest {
         assertEquals(expected, actual);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getX() {
         testing.setX(100);
         int expected = 100;
@@ -39,7 +41,7 @@ class BallModelTest {
         assertEquals(expected, actual);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getY() {
         testing.setY(100);
         int expected = 100;
@@ -47,7 +49,7 @@ class BallModelTest {
         assertEquals(expected, actual);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getYSpeed() {
         testing.setSpeed(2, false);
         double actual = testing.getYSpeed();
@@ -55,14 +57,14 @@ class BallModelTest {
         assertEquals(expected, actual);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getXSpeed() {
         double actual = testing.getXSpeed();
         double expected = 2;
         assertEquals(expected, actual);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getHitBox() {
         Rectangle newHitbox = new Rectangle(0, 0, 10, 10);
         Rectangle myHitbox = testing.getHitBox();

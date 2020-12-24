@@ -37,10 +37,10 @@ public class PlayerModel {
     }
 
     public void set(BallModel ball, int speedBorder) {
-        if (ball.getYSpeed() > 0 && y < 400)
-            ySpeed = 2;
-        else if (ball.getYSpeed() < 0 && y > 150)
-            ySpeed = -2;
+        if (ball.getY() < this.y)
+            ySpeed = -2.5;
+        else if (ball.getY() > this.y)
+            ySpeed = 2.5;
         if (ball.getXSpeed() < 0)
             ySpeed = 0;
 
