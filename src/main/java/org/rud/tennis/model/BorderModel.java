@@ -10,7 +10,7 @@ public class BorderModel {
 
     private Rectangle hitBox;
 
-    public BorderModel(int x, int y, int WIDTH, int HEIGHT){
+    public BorderModel(int x, int y, int WIDTH, int HEIGHT) {
         this.x = x;
         this.y = y;
         this.WIDTH = WIDTH;
@@ -18,15 +18,15 @@ public class BorderModel {
         hitBox = new Rectangle(x, y, WIDTH, HEIGHT);
     }
 
-    public int getX(){
+    public int getX() {
         return x;
     }
 
-    public int getY(){
+    public int getY() {
         return y;
     }
 
-    public Rectangle getHitBox(){
+    public Rectangle getHitBox() {
         return hitBox;
     }
 }

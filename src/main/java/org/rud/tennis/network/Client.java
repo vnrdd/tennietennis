@@ -31,8 +31,7 @@ public class Client {
     }
 
 
-
-    public void send(String data){
+    public void send(String data) {
         message = data;
     }
 
@@ -65,7 +64,7 @@ public class Client {
                         e.printStackTrace();
                     }
 
-                    if(message.equals(""))
+                    if (message.equals(""))
                         continue;
 
                     byte[] sendData = message.getBytes();

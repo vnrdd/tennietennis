@@ -21,13 +21,12 @@ public class PlayWithBotState extends GameState implements Pitch {
     private int diff = -1;
     private int botSpeedBorder = 0;
 
-    public PlayWithBotState(GameStateManager gsm){
+    public PlayWithBotState(GameStateManager gsm) {
         this.gsm = gsm;
         try {
             bg = new Background("/splitBg.png");
             gameOverBg = new Background("/gameBg.png");
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         scores = new ArrayList<Integer>();
@@ -63,8 +62,8 @@ public class PlayWithBotState extends GameState implements Pitch {
         winCheck();
     }
 
-    private void winCheck(){
-        if(scores.get(0) == ballsToWin || scores.get(1) == ballsToWin)
+    private void winCheck() {
+        if (scores.get(0) == ballsToWin || scores.get(1) == ballsToWin)
             gameOver = true;
     }
 
@@ -74,15 +73,15 @@ public class PlayWithBotState extends GameState implements Pitch {
         g.setFont(new Font("TT Hoves DemiBold", Font.PLAIN, 100));
         g.drawString(String.valueOf(scores.get(0)), 380, 150);
         g.drawString(String.valueOf(scores.get(1)), 560, 150);
-        for(Player p : players)
+        for (Player p : players)
             p.draw(g);
-        for(Border b : goalBorders)
+        for (Border b : goalBorders)
             b.draw(g);
-        for(Border w : walls)
+        for (Border w : walls)
             w.draw(g);
         ball.draw(g);
 
-        if(gameOver){
+        if (gameOver) {
             gameOverBg.draw(g);
             g.setColor(new Color(252, 163, 17));
             g.setFont(new Font("TT Hoves DemiBold", Font.PLAIN, 50));
@@ -91,14 +90,14 @@ public class PlayWithBotState extends GameState implements Pitch {
             g.setColor(new Color(219, 223, 225));
             g.setFont(new Font("TT Hoves DemiBold", Font.PLAIN, 30));
             g.drawString("Press ESC to leave", 340, 500);
-            if(scores.get(0) == ballsToWin)
+            if (scores.get(0) == ballsToWin)
                 g.drawImage(Images.blueWin, 300, 230, null);
             else
                 g.drawImage(Images.redWin, 300, 230, null);
         }
     }
 
-    public void goal(int pos){
+    public void goal(int pos) {
         scores.set((pos + 1) % 2, scores.get((pos + 1) % 2) + 1);
         ball = new Ball(506, 353);
         ball.getModel().setSpeed(diff + 2, true);
@@ -106,18 +105,18 @@ public class PlayWithBotState extends GameState implements Pitch {
     }
 
     public void keyPressed(int k) {
-        if(k == KeyEvent.VK_ESCAPE) {
+        if (k == KeyEvent.VK_ESCAPE) {
             reset();
             gsm.setState(GameStateManager.MENUSTATE);
         }
-        if(k == KeyEvent.VK_UP)
+        if (k == KeyEvent.VK_UP)
             players.get(0).getModel().ySpeed = -2;
-        if(k == KeyEvent.VK_DOWN)
+        if (k == KeyEvent.VK_DOWN)
             players.get(0).getModel().ySpeed = 2;
     }
 
     public void keyReleased(int k) {
-        if(k == KeyEvent.VK_UP || k == KeyEvent.VK_DOWN)
+        if (k == KeyEvent.VK_UP || k == KeyEvent.VK_DOWN)
             players.get(0).getModel().ySpeed = 0;
     }
 
@@ -149,14 +148,15 @@ public class PlayWithBotState extends GameState implements Pitch {
 
     }
 
-    public int getSingleScore(){
+    public int getSingleScore() {
         return singleScore;
     }
-    public void setSingleScore(int score){
+
+    public void setSingleScore(int score) {
         singleScore = score;
     }
 
-    private void reset(){
+    private void reset() {
         ball = new Ball(506, 353);
         ball.getModel().setSpeed(diff + 2, true);
         players.set(1, new Player(860, 292, 2));

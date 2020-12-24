@@ -53,9 +53,12 @@ public class Server {
                     }
 
                     server.message = new String(receivePacket.getData());
+                    if (server.message.contains("connected"))
+                        System.out.println(server.message);
+
                     if (!server.message.equals("")) {
                         // System.out.println(server.message);
-                        if (server.message.indexOf(" ") != -1){
+                        if (server.message.indexOf(" ") != -1) {
                             server.player1 = server.message.split(" ")[0];
                             String message = "@" + server.message.split(" ")[1];
                             if (server.users.size() > 0) {
@@ -85,13 +88,13 @@ public class Server {
                 while (!server.message.equals("@quit")) {
                     byte[] sendData = "Table1&Table2&Table3".getBytes();
 
-                    if (server.message.contains("Y")){
+                    if (server.message.contains("Y")) {
                         sendData = server.message.getBytes();
                     }
-                    if(server.message.contains("@f")){
+                    if (server.message.contains("@f")) {
                         String name = server.message.split("@")[0];
                     }
-                    if(server.message.contains("@s")){
+                    if (server.message.contains("@s")) {
                         String name = server.message.split("@")[0];
                         server.message = "@" + server.message.split("@")[1];
                     }

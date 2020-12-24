@@ -16,28 +16,29 @@ public class ChooseDifficultyState extends GameState {
     private Color uncheckedColor;
     private Color checkedColor;
 
-    public ChooseDifficultyState(GameStateManager gsm){
+    public ChooseDifficultyState(GameStateManager gsm) {
         this.gsm = gsm;
         try {
             bg = new Background("/gameBg.png");
             font = new Font("TT Hoves DemiBold", Font.PLAIN, 30);
             uncheckedColor = new Color(219, 223, 225);
             checkedColor = new Color(58, 134, 255);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void init() {}
+    public void init() {
+    }
 
     public void init(int mod) {
         stateToCall = mod;
     }
 
-    public void update() {}
+    public void update() {
+    }
 
-    public int getDifficulty(){
+    public int getDifficulty() {
         return choosedOption;
     }
 
@@ -46,8 +47,8 @@ public class ChooseDifficultyState extends GameState {
         g.setFont(font);
         g.setColor(new Color(252, 163, 17));
         g.drawString("Choose difficulty", 385, 200);
-        for(int i = 0; i < options.length; i++) {
-            if(i == currentChoice)
+        for (int i = 0; i < options.length; i++) {
+            if (i == currentChoice)
                 g.setColor(checkedColor);
             else
                 g.setColor(uncheckedColor);
@@ -61,21 +62,22 @@ public class ChooseDifficultyState extends GameState {
     }
 
     public void keyPressed(int k) {
-        if(k == KeyEvent.VK_ENTER)
+        if (k == KeyEvent.VK_ENTER)
             select();
-        if(k == KeyEvent.VK_UP) {
+        if (k == KeyEvent.VK_UP) {
             currentChoice--;
-            if(currentChoice == -1)
+            if (currentChoice == -1)
                 currentChoice = options.length - 1;
         }
-        if(k == KeyEvent.VK_DOWN) {
+        if (k == KeyEvent.VK_DOWN) {
             currentChoice++;
-            if(currentChoice == options.length)
+            if (currentChoice == options.length)
                 currentChoice = 0;
         }
-        if(k == KeyEvent.VK_ESCAPE)
+        if (k == KeyEvent.VK_ESCAPE)
             gsm.setState(GameStateManager.MENUSTATE);
     }
 
-    public void keyReleased(int k) { }
+    public void keyReleased(int k) {
+    }
 }

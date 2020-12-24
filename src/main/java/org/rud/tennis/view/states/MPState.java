@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.*;
 
-public class MPState extends GameState implements Pitch{
+public class MPState extends GameState implements Pitch {
     private Background bg;
     private ArrayList<Border> goalBorders;
     private ArrayList<Border> walls;
@@ -35,7 +35,7 @@ public class MPState extends GameState implements Pitch{
     public MPState(GameStateManager gsm) {
         this.gsm = gsm;
         int pos = (new Random()).nextInt(14);
-        name = "Player"+String.valueOf(pos);
+        name = "Player" + String.valueOf(pos);
         String[] options = {"localhost", "5555", name};
         try {
             bg = new Background("/splitBg.png");
@@ -53,27 +53,26 @@ public class MPState extends GameState implements Pitch{
             walls.add(new Border(38, 37, 924, 12, "/wall.png"));
             walls.add(new Border(38, 660, 924, 12, "/wall.png"));
             setFlag(gsm.posInGame);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void setFlag(int flag){
+    private void setFlag(int flag) {
         this.flag = flag;
-        if(flag == 1)
+        if (flag == 1)
             client.send("@f");
-        if(flag == 0)
+        if (flag == 0)
             client.send("@s");
     }
 
     public void init() {
         flag = gsm.posInGame;
-        if(flag == 1) {
+        if (flag == 1) {
             nameMain = "@f";
             myPos = 0;
         }
-        if(flag == 0) {
+        if (flag == 0) {
             nameMain = "@s";
             myPos = 1;
         }
@@ -85,30 +84,29 @@ public class MPState extends GameState implements Pitch{
     }
 
     public void update() {
-          players.get(0).getModel().set();
-          players.get(1).getModel().set();
+        players.get(0).getModel().set();
+        players.get(1).getModel().set();
 
         message = client.receivedMessage;
-        if(!gameStarted)
+        if (!gameStarted)
             ball = new Ball(480, 353);
-        if(nameMain.equals("@f"))
+        if (nameMain.equals("@f"))
             client.send(nameMain + " Y " + players.get(myPos).getModel().y + " " + ball.getModel().getX() + " " + ball.getModel().getY());
         else
             client.send(nameMain + " Y " + players.get(myPos).getModel().y);
-        if(!message.equals("")){
-            if(message.contains("Y") && !message.split(" ")[0].trim().equals(nameMain)) {
+        if (!message.equals("")) {
+            if (message.contains("Y") && !message.split(" ")[0].trim().equals(nameMain)) {
                 players.get((myPos + 1) % 2).getModel().y = Integer.parseInt(message.split(" ")[2].trim());
                 players.get((myPos + 1) % 2).getModel().getHitBox().y = Integer.parseInt(message.split(" ")[2].trim());
-                if(!gameStarted) {
+                if (!gameStarted) {
                     gameStarted = true;
                     ball = new Ball(480, 353);
-                    if(nameMain.equals("@f"))
+                    if (nameMain.equals("@f"))
                         ball.getModel().setSpeed(3, false);
                 }
-                if(gameStarted && nameMain.equals("@f")) {
+                if (gameStarted && nameMain.equals("@f")) {
                     ball.getModel().set(this);
-                }
-                else {
+                } else {
                     ball.getModel().setX(Integer.parseInt(message.split(" ")[3].trim()));
                     ball.getModel().setY(Integer.parseInt(message.split(" ")[4].trim()));
                 }
@@ -118,41 +116,41 @@ public class MPState extends GameState implements Pitch{
 
     public void draw(Graphics2D g) {
         bg.draw(g);
-        for(Player p : players)
+        for (Player p : players)
             p.draw(g);
-            if(!gameStarted){
-                g.setFont(font);
-                g.setColor(new Color(252, 163, 17));
-                g.drawString("Waiting for the opponent...", 350, 150);
-            }
-            for(Border b : goalBorders)
-                b.draw(g);
-            for(Border w : walls)
-                w.draw(g);
-            if(gameStarted){
-                ball.draw(g);
-            }
+        if (!gameStarted) {
+            g.setFont(font);
+            g.setColor(new Color(252, 163, 17));
+            g.drawString("Waiting for the opponent...", 350, 150);
+        }
+        for (Border b : goalBorders)
+            b.draw(g);
+        for (Border w : walls)
+            w.draw(g);
+        if (gameStarted) {
+            ball.draw(g);
+        }
     }
 
-    public void select(){
+    public void select() {
     }
 
     public void keyPressed(int k) {
-        if(k == KeyEvent.VK_ESCAPE){
+        if (k == KeyEvent.VK_ESCAPE) {
             reset();
             gsm.setState(GameStateManager.MENUSTATE);
         }
-        if(k == KeyEvent.VK_ENTER)
-           select();
-        if(k == KeyEvent.VK_UP) {
-                players.get(myPos).getModel().ySpeed = -2;
+        if (k == KeyEvent.VK_ENTER)
+            select();
+        if (k == KeyEvent.VK_UP) {
+            players.get(myPos).getModel().ySpeed = -2;
         }
-        if(k == KeyEvent.VK_DOWN) {
-                players.get(myPos).getModel().ySpeed = 2;
+        if (k == KeyEvent.VK_DOWN) {
+            players.get(myPos).getModel().ySpeed = 2;
         }
     }
 
-    public void reset(){
+    public void reset() {
         gameStarted = false;
         players.get(myPos).getModel().ySpeed = 0;
         score1 = 0;
@@ -160,8 +158,8 @@ public class MPState extends GameState implements Pitch{
     }
 
     public void keyReleased(int k) {
-            if(k == KeyEvent.VK_UP || k == KeyEvent.VK_DOWN)
-                players.get(myPos).getModel().ySpeed = 0;
+        if (k == KeyEvent.VK_UP || k == KeyEvent.VK_DOWN)
+            players.get(myPos).getModel().ySpeed = 0;
     }
 
     @Override
@@ -202,7 +200,7 @@ public class MPState extends GameState implements Pitch{
     @Override
     public void goal(int pos) {
         ball = new Ball(480, 353);
-        if(nameMain.equals("%s")) {
+        if (nameMain.equals("%s")) {
             ball.getModel().setSpeed(3, false);
         }
     }

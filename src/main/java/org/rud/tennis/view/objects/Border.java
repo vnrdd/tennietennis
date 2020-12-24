@@ -10,21 +10,20 @@ public class Border {
     private BorderModel model;
     private BufferedImage texture;
 
-    public Border(int x, int y, int WIDTH, int HEIGHT, String filename){
-        try{
+    public Border(int x, int y, int WIDTH, int HEIGHT, String filename) {
+        try {
             texture = ImageIO.read(getClass().getResourceAsStream(filename));
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         model = new BorderModel(x, y, WIDTH, HEIGHT);
     }
 
-    public BorderModel getModel(){
+    public BorderModel getModel() {
         return model;
     }
 
-    public void draw(Graphics2D g){
+    public void draw(Graphics2D g) {
         g.drawImage(texture, model.getX(), model.getY(), model.WIDTH, model.HEIGHT, null);
     }
 }

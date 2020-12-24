@@ -14,66 +14,65 @@ public class BallModel {
 
     private Rectangle hitBox;
 
-    public BallModel(int x, int y, int WIDTH, int HEIGHT){
+    public BallModel(int x, int y, int WIDTH, int HEIGHT) {
         this.x = x;
         this.y = y;
         hitBox = new Rectangle(x, y, WIDTH, HEIGHT);
         setSpeed(2, true);
     }
 
-    public void setSpeed(int border, boolean random){
-        if(random) {
+    public void setSpeed(int border, boolean random) {
+        if (random) {
             int buf = (new Random()).nextInt(2) - 1;
             if (buf == 0)
                 ySpeed = -border;
             else
                 ySpeed = border;
-        }
-        else
+        } else
             ySpeed = border;
     }
 
-    public void setX(int x){
+    public void setX(int x) {
         this.x = x;
     }
 
-    public void setY(int y){
+    public void setY(int y) {
         this.y = y;
     }
 
-    public int getX(){
+    public int getX() {
         return x;
     }
 
-    public int getY(){
+    public int getY() {
         return y;
     }
 
-    public double getYSpeed(){
+    public double getYSpeed() {
         return ySpeed;
     }
 
-    public double getXSpeed(){
+    public double getXSpeed() {
         return xSpeed;
     }
 
-    public void set(Pitch pitch){
-        for(int i = 0; i < pitch.getPlayers().size(); ++i) {
+    public void set(Pitch pitch) {
+        for (int i = 0; i < pitch.getPlayers().size(); ++i) {
             if (hitBox.intersects(pitch.getPlayers().get(i).getModel().getHitBox())) {
                 xSpeed = -xSpeed;
                 int newScore = pitch.getSingleScore() + 1;
                 pitch.setSingleScore(newScore);
             }
         }
-        for(int i = 0; i < pitch.getWalls().size(); ++i){
-            if(hitBox.intersects(pitch.getWalls().get(i).getModel().getHitBox())) {
-                if(i == 0 || i == 1)
+        for (int i = 0; i < pitch.getWalls().size(); ++i) {
+            if (hitBox.intersects(pitch.getWalls().get(i).getModel().getHitBox())) {
+                if (i == 0 || i == 1)
                     ySpeed = -ySpeed;
                 else
                     xSpeed = -xSpeed;
             }
         }
-        for(int i = 0; i < pitch.getGoalBorders().size(); ++i) {
+        for (int i = 0; i < pitch.getGoalBorders().size(); ++i) {
             if (hitBox.intersects(pitch.getGoalBorders().get(i).getModel().getHitBox())) {
                 pitch.goal(i);
                 xSpeed = 0;
@@ -88,7 +87,7 @@ public class BallModel {
         hitBox.y += ySpeed;
     }
 
-    public Rectangle getHitBox(){
+    public Rectangle getHitBox() {
         return hitBox;
     }
 }

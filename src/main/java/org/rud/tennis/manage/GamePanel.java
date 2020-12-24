@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
-public class GamePanel extends JPanel implements Runnable, KeyListener{
+public class GamePanel extends JPanel implements Runnable, KeyListener {
     private static final int WIDTH = 1000;
     private static final int HEIGHT = 706;
 
@@ -25,7 +25,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 
     public void addNotify() {
         super.addNotify();
-        if(thread == null) {
+        if (thread == null) {
             thread = new Thread(this);
             addKeyListener(this);
             thread.start();
@@ -41,14 +41,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 
     public void run() {
         init();
-        while(running) {
+        while (running) {
             update();
             draw();
             drawToScreen();
             try {
                 Thread.sleep(5);
-            }
-            catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -61,16 +60,20 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     private void draw() {
         gsm.draw(g);
     }
+
     private void drawToScreen() {
         Graphics g2 = getGraphics();
         g2.drawImage(image, 0, 0, WIDTH, HEIGHT, null);
         g2.dispose();
     }
 
-    public void keyTyped(KeyEvent key) {}
+    public void keyTyped(KeyEvent key) {
+    }
+
     public void keyPressed(KeyEvent key) {
         gsm.keyPressed(key.getKeyCode());
     }
+
     public void keyReleased(KeyEvent key) {
         gsm.keyReleased(key.getKeyCode());
     }

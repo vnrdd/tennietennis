@@ -21,25 +21,26 @@ public class SPState extends GameState {
             font = new Font("TT Hoves DemiBold", Font.PLAIN, 30);
             uncheckedColor = new Color(219, 223, 225);
             checkedColor = new Color(58, 134, 255);
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void init() {}
+    public void init() {
+    }
 
     public void init(int mod) {
 
     }
 
-    public void update() {}
+    public void update() {
+    }
 
-    public void draw(Graphics2D g){
+    public void draw(Graphics2D g) {
         bg.draw(g);
         g.setFont(font);
-        for(int i = 0; i < options.length; i++) {
-            if(i == currentChoice)
+        for (int i = 0; i < options.length; i++) {
+            if (i == currentChoice)
                 g.setColor(checkedColor);
             else
                 g.setColor(uncheckedColor);
@@ -48,30 +49,31 @@ public class SPState extends GameState {
     }
 
     private void select() {
-        if(currentChoice == 0) {
+        if (currentChoice == 0) {
             gsm.setState(GameStateManager.CHOOSEDIFFICULTYSTATE, 2);
         }
-        if(currentChoice == 1) {
+        if (currentChoice == 1) {
             gsm.setState(GameStateManager.CHOOSEDIFFICULTYSTATE, 3);
         }
-        if(currentChoice == 2)
+        if (currentChoice == 2)
             gsm.setState(GameStateManager.MENUSTATE);
     }
 
     public void keyPressed(int k) {
-        if(k == KeyEvent.VK_ENTER)
+        if (k == KeyEvent.VK_ENTER)
             select();
-        if(k == KeyEvent.VK_UP) {
+        if (k == KeyEvent.VK_UP) {
             currentChoice--;
-            if(currentChoice == -1)
+            if (currentChoice == -1)
                 currentChoice = options.length - 1;
         }
-        if(k == KeyEvent.VK_DOWN) {
+        if (k == KeyEvent.VK_DOWN) {
             currentChoice++;
-            if(currentChoice == options.length)
+            if (currentChoice == options.length)
                 currentChoice = 0;
         }
     }
 
-    public void keyReleased(int k) { }
+    public void keyReleased(int k) {
+    }
 }

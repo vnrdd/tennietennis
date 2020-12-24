@@ -10,24 +10,23 @@ public class Player {
     private PlayerModel model;
     private BufferedImage texture;
 
-    public Player(int x, int y, int number){
-        try{
-            if(number == 1)
+    public Player(int x, int y, int number) {
+        try {
+            if (number == 1)
                 texture = ImageIO.read(getClass().getResourceAsStream("/player.png"));
-            else if(number == 2)
+            else if (number == 2)
                 texture = ImageIO.read(getClass().getResourceAsStream("/player2.png"));
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         model = new PlayerModel(x, y, 22, 123);
     }
 
-    public PlayerModel getModel(){
+    public PlayerModel getModel() {
         return model;
     }
 
-    public void draw(Graphics2D g){
+    public void draw(Graphics2D g) {
         g.drawImage(texture, model.getX(), model.getY(), 22, 123, null);
     }
 }
