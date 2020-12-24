@@ -9,17 +9,18 @@ import java.util.ArrayList;
         private ArrayList<GameState> gameStates;
         private int currentState;
         public int posInGame = 1;
+        public int ballsToLose = 5;
 
         public static final int MENUSTATE = 0;
         public static final int SINGLEPLAYERSTATE = 1;
         public static final int MULTIPLAYERSTATE = 5;
-        public static final int HELPSTATE = 3;
         public static final int CHOOSETABLESTATE = 6;
 
         // SINGLEPLAYER LEVEL
         public static final int SQUASHSTATE = 2; // CHANGE ON 4 LATER
         public static final int PLAYWITHBOTSTATE = 3; //CHANGE ON 5 LATER
         public static final int CHOOSEDIFFICULTYSTATE = 4; //CHANGE ON SMTH LATER
+        public static final int SETTINGSSTATE = 7;
 
         public GameStateManager() {
             gameStates = new ArrayList<GameState>();
@@ -31,6 +32,7 @@ import java.util.ArrayList;
             gameStates.add(new ChooseDifficultyState(this));
             gameStates.add(new MPState(this));
             gameStates.add(new ChooseTableState(this));
+            gameStates.add(new SettingsState(this));
         }
 
         public void setState(int state) {
@@ -41,6 +43,10 @@ import java.util.ArrayList;
         public void setState(int state, int mod) {
             currentState = state;
             gameStates.get(currentState).init(mod);
+        }
+
+        public GameState getStates(int state){
+            return gameStates.get(state);
         }
 
         public void update() {

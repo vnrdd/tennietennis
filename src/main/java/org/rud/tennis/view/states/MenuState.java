@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
 public class MenuState extends GameState {
     private Background bg;
     private int currentChoice = 0;
-    private String[] options = {"Singleplayer", "Multiplayer", "Help", "Quit"};
+    private String[] options = {"Singleplayer", "Multiplayer", "Settings", "Quit"};
     private Font font;
     private Color uncheckedColor;
     private Color checkedColor;
@@ -54,6 +54,8 @@ public class MenuState extends GameState {
         if(currentChoice == 1) {
             gsm.setState(GameStateManager.CHOOSETABLESTATE);
         }
+        if(currentChoice == 2)
+            gsm.setState(GameStateManager.SETTINGSSTATE);
         if(currentChoice == 3)
             System.exit(0);
     }

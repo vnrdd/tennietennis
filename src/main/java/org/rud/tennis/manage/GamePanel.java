@@ -11,7 +11,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 
     private Thread thread;
     private boolean running;
-
     private BufferedImage image;
     private Graphics2D g;
 
@@ -47,7 +46,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
             draw();
             drawToScreen();
             try {
-                Thread.sleep(5);
+                Thread.sleep(3);
             }
             catch(Exception e) {
                 e.printStackTrace();

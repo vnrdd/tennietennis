@@ -16,7 +16,7 @@ public class PlayWithBotState extends GameState implements Pitch {
     private ArrayList<Player> players;
     private ArrayList<Integer> scores;
     private int singleScore;
-    private int ballsToWin = 2;
+    private int ballsToWin;
     private boolean gameOver = false;
     private int diff = -1;
     private int botSpeedBorder = 0;
@@ -53,6 +53,7 @@ public class PlayWithBotState extends GameState implements Pitch {
         diff = mod;
         ball.getModel().setSpeed(mod + 2, true);
         botSpeedBorder = mod + 2;
+        ballsToWin = gsm.ballsToLose;
     }
 
     public void update() {
