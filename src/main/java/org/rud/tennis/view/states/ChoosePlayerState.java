@@ -1,27 +1,32 @@
 package org.rud.tennis.view.states;
 
 import org.rud.tennis.manage.GameStateManager;
-import org.rud.tennis.network.Client;
 import org.rud.tennis.view.objects.Background;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
-public class ChooseTableState extends GameState {
+public class ChoosePlayerState extends GameState {
     private Background bg;
     private int currentChoice = 0;
-    private String[] options = {"Join the game", "New game"};
+    private String[] options = {"Player1", "Player2"};
     private Font font;
     private Color uncheckedColor;
     private Color checkedColor;
+    private BufferedImage player1;
+    private BufferedImage player2;
 
-    public ChooseTableState(GameStateManager gsm) {
+    public ChoosePlayerState(GameStateManager gsm) {
         this.gsm = gsm;
         try {
             bg = new Background("/gameBg.png");
             font = new Font("TT Hoves DemiBold", Font.PLAIN, 30);
             uncheckedColor = new Color(219, 223, 225);
             checkedColor = new Color(58, 134, 255);
+            player1 = ImageIO.read(getClass().getResourceAsStream("/icon1.png"));
+            player2 = ImageIO.read(getClass().getResourceAsStream("/icon2.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -44,7 +49,8 @@ public class ChooseTableState extends GameState {
     @Override
     public void draw(Graphics2D g) {
         bg.draw(g);
-
+        g.drawImage(player2, 565, 282, 15, 15,  null);
+        g.drawImage(player1, 565, 332, 15, 15, null);
         g.setFont(font);
         for (int i = 0; i < options.length; i++) {
             if (i == currentChoice)

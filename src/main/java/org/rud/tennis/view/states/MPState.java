@@ -12,25 +12,28 @@ import java.awt.event.KeyEvent;
 import java.util.*;
 
 public class MPState extends GameState implements Pitch {
-    private Background bg;
+    private Background splitBg;
+    private Background clearBg;
     private ArrayList<Border> goalBorders;
     private ArrayList<Border> walls;
     private ArrayList<Player> players;
     private Ball ball;
     private int flag;
     private String nameMain;
-    public Client client;
+    private Client client;
     private String name;
     private boolean gameStarted = false;
-    private int currentChoice = 0;
+    private int table = -1;
     private String message = "";
     private int myPos;
-    private ArrayList<String> tableOptions;
+    private int currentChoice = 0;
+    private String[] tableOptions = {"Table1", "Table2", "Table3"};
     private Font font = new Font("TT Hoves DemiBold", Font.PLAIN, 30);
     private Color uncheckedColor = new Color(219, 223, 225);
     private Color checkedColor = new Color(58, 134, 255);
     private int score1 = 0;
     private int score2 = 0;
+    private int ballsToWin;
 
     public MPState(GameStateManager gsm) {
         this.gsm = gsm;
@@ -38,11 +41,11 @@ public class MPState extends GameState implements Pitch {
         name = "Player" + String.valueOf(pos);
         String[] options = {"localhost", "5555", name};
         try {
-            bg = new Background("/splitBg.png");
+            splitBg = new Background("/splitBg.png");
+            clearBg = new Background("/gameBg.png");
             players = new ArrayList<Player>();
             players.add(new Player(124, 292, 1));
             players.add(new Player(888, 292, 2));
-            tableOptions = new ArrayList<String>();
             client = new Client(options);
             client.load(options);
             client.send(name + " connected");
@@ -68,6 +71,7 @@ public class MPState extends GameState implements Pitch {
 
     public void init() {
         flag = gsm.posInGame;
+        ballsToWin = gsm.ballsToLose;
         if (flag == 1) {
             nameMain = "@f";
             myPos = 0;
@@ -76,63 +80,96 @@ public class MPState extends GameState implements Pitch {
             nameMain = "@s";
             myPos = 1;
         }
-
-        System.out.println(client.receivedMessage);
     }
 
     public void init(int mod) {
     }
 
     public void update() {
-        players.get(0).getModel().set();
-        players.get(1).getModel().set();
-
         message = client.receivedMessage;
-        if (!gameStarted)
-            ball = new Ball(480, 353);
-        if (nameMain.equals("@f"))
-            client.send(nameMain + " Y " + players.get(myPos).getModel().y + " " + ball.getModel().getX() + " " + ball.getModel().getY());
-        else
-            client.send(nameMain + " Y " + players.get(myPos).getModel().y);
-        if (!message.equals("")) {
-            if (message.contains("Y") && !message.split(" ")[0].trim().equals(nameMain)) {
-                players.get((myPos + 1) % 2).getModel().y = Integer.parseInt(message.split(" ")[2].trim());
-                players.get((myPos + 1) % 2).getModel().getHitBox().y = Integer.parseInt(message.split(" ")[2].trim());
-                if (!gameStarted) {
-                    gameStarted = true;
-                    ball = new Ball(480, 353);
-                    if (nameMain.equals("@f"))
-                        ball.getModel().setSpeed(3, false);
+        if(table != -1) {
+            players.get(0).getModel().set();
+            players.get(1).getModel().set();
+            if (!gameStarted)
+                ball = new Ball(480, 353);
+            if (nameMain.equals("@f"))
+                client.send(nameMain + " Y " + players.get(myPos).getModel().y + " table" + table + " " + ball.getModel().getX() + " " + ball.getModel().getY()
+                        + " " + score1 + " " + score2);
+            else
+                client.send(nameMain + " Y " + players.get(myPos).getModel().y + " table" + table);
+            if (!message.equals("")) {
+                if (message.contains("Y") && !message.split(" ")[0].trim().equals(nameMain) && message.split(" ")[3].trim().equals("table"+table)) {
+                    players.get((myPos + 1) % 2).getModel().y = Integer.parseInt(message.split(" ")[2].trim());
+                    players.get((myPos + 1) % 2).getModel().getHitBox().y = Integer.parseInt(message.split(" ")[2].trim());
+                    if (message.split(" ")[0].trim().equals("@f")) {
+                        score1 = Integer.parseInt(message.split(" ")[6].trim());
+                        score2 = Integer.parseInt(message.split(" ")[7].trim());
+                    }
+                    if (!gameStarted) {
+                        gameStarted = true;
+                        ball = new Ball(480, 353);
+                        if (nameMain.equals("@f"))
+                            ball.getModel().setSpeed(3, false);
+                    }
+                    if (gameStarted && nameMain.equals("@f")) {
+                        ball.getModel().set(this);
+                    } else {
+                        ball.getModel().setX(Integer.parseInt(message.split(" ")[4].trim()));
+                        ball.getModel().setY(Integer.parseInt(message.split(" ")[5].trim()));
+                    }
                 }
-                if (gameStarted && nameMain.equals("@f")) {
-                    ball.getModel().set(this);
-                } else {
-                    ball.getModel().setX(Integer.parseInt(message.split(" ")[3].trim()));
-                    ball.getModel().setY(Integer.parseInt(message.split(" ")[4].trim()));
-                }
+            }
+            if (score1 == ballsToWin || score2 == ballsToWin) {
+                gsm.setState(GameStateManager.MENUSTATE);
             }
         }
     }
 
     public void draw(Graphics2D g) {
-        bg.draw(g);
-        for (Player p : players)
-            p.draw(g);
-        if (!gameStarted) {
+        if(table == -1) {
+            clearBg.draw(g);
             g.setFont(font);
-            g.setColor(new Color(252, 163, 17));
-            g.drawString("Waiting for the opponent...", 350, 150);
+            for (int i = 0; i < tableOptions.length; i++) {
+                if (i == currentChoice)
+                    g.setColor(checkedColor);
+                else
+                    g.setColor(uncheckedColor);
+                g.drawString(tableOptions[i], 500 - 7 * tableOptions[i].length(), 300 + i * 50);
+            }
         }
-        for (Border b : goalBorders)
-            b.draw(g);
-        for (Border w : walls)
-            w.draw(g);
-        if (gameStarted) {
-            ball.draw(g);
+        if(table != -1) {
+            splitBg.draw(g);
+            g.setColor(new Color(219, 223, 225));
+            g.setFont(new Font("TT Hoves DemiBold", Font.PLAIN, 100));
+            g.drawString(String.valueOf(score1), 380, 150);
+            g.drawString(String.valueOf(score2), 560, 150);
+            for (Player p : players)
+                p.draw(g);
+            if (!gameStarted) {
+                g.setFont(font);
+                g.setColor(new Color(252, 163, 17));
+                g.drawString("Waiting for the opponent...", 350, 150);
+            }
+            for (Border b : goalBorders)
+                b.draw(g);
+            for (Border w : walls)
+                w.draw(g);
+            if (gameStarted) {
+                ball.draw(g);
+            }
         }
     }
 
     public void select() {
+        if(currentChoice == 0){
+            table = 0;
+        }
+        if(currentChoice == 1){
+            table = 1;
+        }
+        if(currentChoice == 2){
+            table = 2;
+        }
     }
 
     public void keyPressed(int k) {
@@ -143,10 +180,22 @@ public class MPState extends GameState implements Pitch {
         if (k == KeyEvent.VK_ENTER)
             select();
         if (k == KeyEvent.VK_UP) {
-            players.get(myPos).getModel().ySpeed = -2;
+            if(table != -1)
+                players.get(myPos).getModel().ySpeed = -2;
+            else {
+                currentChoice--;
+                if (currentChoice == -1)
+                    currentChoice = tableOptions.length - 1;
+            }
         }
         if (k == KeyEvent.VK_DOWN) {
-            players.get(myPos).getModel().ySpeed = 2;
+            if(table != -1)
+                players.get(myPos).getModel().ySpeed = 2;
+            else {
+                currentChoice++;
+                if (currentChoice == tableOptions.length)
+                    currentChoice = 0;
+            }
         }
     }
 
@@ -159,7 +208,8 @@ public class MPState extends GameState implements Pitch {
 
     public void keyReleased(int k) {
         if (k == KeyEvent.VK_UP || k == KeyEvent.VK_DOWN)
-            players.get(myPos).getModel().ySpeed = 0;
+            if(table != -1)
+                players.get(myPos).getModel().ySpeed = 0;
     }
 
     @Override
@@ -199,6 +249,10 @@ public class MPState extends GameState implements Pitch {
 
     @Override
     public void goal(int pos) {
+        if (pos == 0)
+            score2++;
+        if (pos == 1)
+            score1++;
         ball = new Ball(480, 353);
         if (nameMain.equals("%s")) {
             ball.getModel().setSpeed(3, false);

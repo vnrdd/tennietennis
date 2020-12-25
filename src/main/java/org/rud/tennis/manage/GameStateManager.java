@@ -10,11 +10,12 @@ public class GameStateManager {
     private int currentState;
     public int posInGame = 1;
     public int ballsToLose = 5;
+    public int mpDif = 2;
 
     public static final int MENUSTATE = 0;
     public static final int SINGLEPLAYERSTATE = 1;
     public static final int MULTIPLAYERSTATE = 5;
-    public static final int CHOOSETABLESTATE = 6;
+    public static final int CHOOSEPLAYERSTATE = 6;
 
     // SINGLEPLAYER LEVEL
     public static final int SQUASHSTATE = 2; // CHANGE ON 4 LATER
@@ -31,7 +32,7 @@ public class GameStateManager {
         gameStates.add(new PlayWithBotState(this));
         gameStates.add(new ChooseDifficultyState(this));
         gameStates.add(new MPState(this));
-        gameStates.add(new ChooseTableState(this));
+        gameStates.add(new ChoosePlayerState(this));
         gameStates.add(new SettingsState(this));
     }
 
